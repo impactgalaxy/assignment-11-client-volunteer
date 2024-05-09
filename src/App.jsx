@@ -1,35 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Outlet } from "react-router-dom"
+import Navbar from "./C_P_R/components/shared_conponents/Navbar"
+import Footer from "./C_P_R/components/shared_conponents/Footer"
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Navbar></Navbar>
+      <Outlet></Outlet>
+      <Footer></Footer>
+
     </>
   )
 }
 
 export default App
+/***
+ * https://i.ibb.co/jM1kpks/at-infinity-fl6pb3-E-z-S8-unsplash.jpg
+ * https://i.ibb.co/hX0VNh2/markus-spiske-phvqs-Mbxt-TY-unsplash.jpg
+ * https://i.ibb.co/12rwN88/tony-mucci-kj-Op-ODAb-JA-unsplash.jpg
+ * https://i.ibb.co/qJ3xQG7/joshua-coleman-WTrfvtoe3y-M-unsplash.jpg
+ * https://i.ibb.co/jyhSN3K/daniel-curran-Mt-v-DBy-RI44-unsplash.jpg
+ * https://i.ibb.co/b7yPJwz/riccardo-ginevri-h-Uj-SO5d-ZA-E-unsplash.jpg
+ */
