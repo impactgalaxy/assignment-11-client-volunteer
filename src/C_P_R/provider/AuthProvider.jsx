@@ -3,7 +3,7 @@ import auth from '../../../firebase.config';
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
 export const AuthContext = React.createContext(null);
-export default function AuthProvider() {
+export default function AuthProvider({ children }) {
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 
@@ -20,12 +20,14 @@ export default function AuthProvider() {
     })
     const authInfo = {
         user,
+        loading,
         createUser,
+
     }
 
     return (
         <AuthContext.Provider value={authInfo}>
-
+            {children}
         </AuthContext.Provider>
     )
 }
