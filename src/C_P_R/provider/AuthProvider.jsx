@@ -1,7 +1,7 @@
 import React from 'react'
 import auth from '../../../firebase.config';
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-
+import PropTypes from "prop-types";
 export const AuthContext = React.createContext(null);
 export default function AuthProvider({ children }) {
     const [user, setUser] = React.useState(null);
@@ -30,4 +30,7 @@ export default function AuthProvider({ children }) {
             {children}
         </AuthContext.Provider>
     )
+}
+AuthProvider.propTypes = {
+    children: PropTypes.node
 }

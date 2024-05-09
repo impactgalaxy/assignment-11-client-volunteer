@@ -10,8 +10,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
       <Helmet>
-        <RouterProvider router={routes} />
+        <title>Volunify</title>
       </Helmet>
+      <RouterProvider router={routes} />
     </AuthProvider>
 
   </React.StrictMode>,
