@@ -98,7 +98,7 @@ export default function Login() {
                     <FaGithub className='text-5xl p-3 rounded-full hover:bg-[#e7e7e7] cursor-pointer' title="Login with github"></FaGithub>
                     <FaFacebook className='text-5xl p-3 rounded-full hover:bg-[#e7e7e7] cursor-pointer' title="Login with facebook"></FaFacebook>
                 </div>
-                <img src={logo} alt="" className=" h-96 block m-auto object-cover" />
+                <img src={logo} alt="" className=" h-96 block m-auto object-cover rounded-xl" />
 
 
             </div>
