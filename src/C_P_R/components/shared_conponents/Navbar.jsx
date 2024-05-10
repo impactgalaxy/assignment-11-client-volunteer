@@ -1,5 +1,4 @@
-// import React from 'react'
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import useAuth from '../../customHooks/useAuth';
 import defaultUser from "/public/user.png"
@@ -7,8 +6,8 @@ import useToast from '../../customHooks/useToast';
 
 export default function Navbar() {
     const { user, logOut } = useAuth();
-    const [menuOpen, setMenuOpen] = React.useState(false);
-    const [theme, setTheme] = React.useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [theme, setTheme] = useState(false);
     const Toast = useToast();
     const navLinks = (
         <>
@@ -36,7 +35,7 @@ export default function Navbar() {
             setTheme(false);
         }
     }
-    React.useEffect(() => {
+    useEffect(() => {
         const getTheme = JSON.parse(localStorage.getItem("theme"));
         const html = document.querySelector("html");
         setTheme(getTheme);
