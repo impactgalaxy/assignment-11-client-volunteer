@@ -1,9 +1,15 @@
 // import React from 'react'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import useAuth from '../../customHooks/useAuth';
+import defaultUser from "../../../../public/user.png"
+import useToast from '../../customHooks/useToast';
 
 export default function Navbar() {
-    const [theme, setTheme] = React.useState(false)
+    const { user, logOut } = useAuth();
+    const [menuOpen, setMenuOpen] = React.useState(false);
+    const [theme, setTheme] = React.useState(false);
+    const Toast = useToast();
     const navLinks = (
         <>
             <li><NavLink to="/">Home</NavLink></li>
@@ -26,9 +32,39 @@ export default function Navbar() {
         const html = document.querySelector("html");
         setTheme(getTheme);
         getTheme ? html.setAttribute("data-theme", "night") : html.setAttribute("data-theme", "light");
-    }, [theme])
+    }, [theme]);
+
+    const handleLogout = async () => {
+        try {
+            await logOut();
+            Toast.fire({
+                icon: 'success',
+                title: "Logout successful"
+            })
+            setMenuOpen(false);
+
+
+        } catch (error) {
+            const errTxt = error.code.split("/")[1];
+            Toast.fire({
+                icon: "error",
+                title: "Something wrong try later",
+                text: errTxt
+            })
+
+        }
+    }
+    useEffect(() => {
+        setMenuOpen(false);
+    }, [])
+
+
+
+
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-base-100" onClick={() => setMenuOpen(false)}>
+
+
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -63,23 +99,47 @@ export default function Navbar() {
                         {navLinks}
                     </ul>
                 </div>
-                { }
-                <Link to="/login" className="btn">Login</Link>
-                {/* <div className="drawer drawer-end">
-                    <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-                    <div className="drawer-content">
-                        <p>Page content</p>
-                        <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary">Open drawer</label>
+                {user ? <div onClick={() => setMenuOpen(!menuOpen)} className={`relative cursor-pointer tooltip tooltip-left`} data-tip={`${user?.displayName ? user?.displayName : "No name"}`} >
+                    <img className="object-cover w-10 h-10 rounded-full ring ring-gray-300 dark:ring-gray-600" src={user?.photoURL ? user?.photoURL : defaultUser} alt="" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 absolute right-0 ring-1 ring-white bottom-0"></span>
+                </div> : <Link to="/user-login" className="btn">Login</Link>}
+
+                <div className={`absolute md:right-4 right-0 top-16 w-full ${menuOpen ? "" : "hidden"} max-w-sm bg-white rounded-lg shadow-lg z-10 flex-col`}
+                >
+                    <div className='bg-[#1D3C78] py-2 h-20 w-full'>
+                        <p className='text-center font-bold py-4'>{user?.displayName}</p>
+
                     </div>
-                    <div className="drawer-side">
-                        <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
-                        <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-                            <p>Side bar content</p>
-                            <li><a>Sidebar Item 1</a></li>
-                            <li><a>Sidebar Item 2</a></li>
-                        </ul>
+
+
+                    <div className="px-6 py-4 w-full bg-[#3578E5] relative">
+                        <div className='w-20 border h-20 block m-auto rounded-full bg-white absolute left-1/2 -translate-x-1/2 -top-8'>
+                            <img className="object-cover object-center m-auto rounded-full" src={user?.photoURL ? user?.photoURL : defaultUser} alt="avatar" />
+
+                        </div>
+                        <div className='w-full py-5 text-center space-y-4 mt-4'>
+                            <p>{user?.email}</p>
+
+                        </div>
+
+                        <h1 className="px-2 text-sm mt-4">
+                            Contact
+                        </h1>
+
+                        <h1 className="px-2 text-sm mt-4">
+                            About
+                        </h1>
+
+                        <div className="flex items-center mt-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                            </svg>
+
+                            <h1 className="px-2 text-sm cursor-pointer" onClick={handleLogout}>Logout</h1>
+                        </div>
                     </div>
-                </div> */}
+
+                </div>
 
 
 
