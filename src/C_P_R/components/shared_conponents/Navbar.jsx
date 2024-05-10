@@ -1,6 +1,6 @@
 // import React from 'react'
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Navbar() {
     const [theme, setTheme] = React.useState(false)
@@ -38,7 +38,9 @@ export default function Navbar() {
                         {navLinks}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">Volunify</a>
+                <div>
+                    <a className="btn btn-ghost text-xl">Volunify</a>
+                </div>
             </div>
 
             <div className="navbar-end">
