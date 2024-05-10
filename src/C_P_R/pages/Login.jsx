@@ -76,6 +76,7 @@ export default function Login() {
                     <div className="relative h-11 w-full min-w-[200px]">
 
                         <input
+                            type="password"
                             placeholder="Password"
                             {...register("password", {
                                 required: true,
