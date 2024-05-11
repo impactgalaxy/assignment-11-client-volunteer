@@ -8,6 +8,8 @@ export const AuthContext = createContext(null);
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [value, setValue] = useState("");
+    const [deadlineOrder, setDeadlineOrder] = useState("");
 
     const createUser = (email, password) => {
         setLoading(true);
@@ -35,6 +37,10 @@ export default function AuthProvider({ children }) {
     const authInfo = {
         user,
         loading,
+        value,
+        setValue,
+        deadlineOrder,
+        setDeadlineOrder,
         createUser,
         userLogin,
         logOut,
