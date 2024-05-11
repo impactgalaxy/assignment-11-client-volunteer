@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Home from "../pages/Home";
 import AddVolunteerPost from "../pages/AddVolunteerPost";
 import NeedVolunteer from "../components/NeedVolunteer";
+import VolunteerNeedDetails from "../pages/VolunteerNeedDetails";
 
 
 const routes = createBrowserRouter([
@@ -33,6 +34,10 @@ const routes = createBrowserRouter([
             {
                 path: "/need-volunteer",
                 element: <NeedVolunteer></NeedVolunteer>
+            }, {
+                path: "/volunteer-need-details/:id",
+                element: <VolunteerNeedDetails></VolunteerNeedDetails>
+
             }
         ]
     }

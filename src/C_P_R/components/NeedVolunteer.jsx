@@ -29,7 +29,7 @@ export default function NeedVolunteer() {
                                 <p className="text-gray-100 dark:text-gray-800">{post.description}</p>
                                 <div className="flex items-center justify-between my-4">
                                     <p>Need: {post.numberOfVolunteer}</p>
-                                    <Link to={`/volunteer-post-details/:${post._id}`} className="btn">Details</Link>
+                                    <Link to={`/volunteer-need-details/${post._id}`} className="btn">Details</Link>
 
                                 </div>
                             </div>
