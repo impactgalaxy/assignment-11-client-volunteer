@@ -18,7 +18,6 @@ module.exports = withMT({
       violet: colors.violet,
       indigo: colors.indigo,
       blue: colors.blue,
-      lightBlue: colors.lightBlue, // Only in Tailwind CSS <=v2.1
       sky: colors.sky, // As of Tailwind CSS v2.2, `lightBlue` has been renamed to `sky`  
       cyan: colors.cyan,
       teal: colors.teal,
@@ -32,7 +31,6 @@ module.exports = withMT({
       slate: colors.slate,
       zinc: colors.zinc,
       gray: colors.gray,
-      neutral: colors.blueGray,
       stone: colors.stone,
     },
     darkMode: "selector",

@@ -9,33 +9,13 @@ import useAuth from "../customHooks/useAuth";
 export default function NeedVolunteer() {
     const [searchValue, setSearchValue] = useState("");
     const { setValue, setDeadlineOrder, setPageNumber, pageNumber } = useAuth();
-    const { data, isLoading } = useVolunteerData();
+    const { data, isLoading, allData, load } = useVolunteerData();
 
-
-
-    // useEffect(() => {
-    //     dataCount();
-
-    // }, [])
-    // const dataCount = async () => {
-    //     try {
-    //         const response = await axios.get("http://localhost:5000/count")
-    //         setTotalData(response.data)
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // }
-    // console.log(totalData);
-
-    if (isLoading) {
+    if (isLoading || load) {
         return <Loading></Loading>
     }
-    const totalPage = Math.ceil(data.length / 4);
-    const page = [...Array(totalPage).keys()]
-    console.log(page, data.length, totalPage);
-
-
-    // console.log("value form my search in custom : ", value);
+    const totalPage = Math.ceil(allData.count / 4);
+    const page = [...Array(totalPage).keys()];
 
     return (
         <div>
