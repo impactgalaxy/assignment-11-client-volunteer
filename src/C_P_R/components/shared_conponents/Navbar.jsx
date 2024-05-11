@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import useAuth from '../../customHooks/useAuth';
-import defaultUser from "/public/user.png"
+import defaultUser from "/user.png"
 import useToast from '../../customHooks/useToast';
 
 export default function Navbar() {
@@ -12,7 +12,7 @@ export default function Navbar() {
     const navLinks = (
         <>
             <li><NavLink to="/">Home</NavLink></li>
-            <li><NavLink to="/need-volunteer-page">Need Volunteer Page</NavLink></li>
+            <li><NavLink to="/need-volunteer">Need Volunteer</NavLink></li>
             <li>
                 <details>
                     <summary>My Profile</summary>
@@ -39,7 +39,7 @@ export default function Navbar() {
         const getTheme = JSON.parse(localStorage.getItem("theme"));
         const html = document.querySelector("html");
         setTheme(getTheme);
-        getTheme ? html.setAttribute("data-theme", "night") : html.setAttribute("data-theme", "light");
+        getTheme ? html.setAttribute("data-theme", "dark") : html.setAttribute("data-theme", "light");
     }, [theme]);
 
     const handleLogout = async () => {

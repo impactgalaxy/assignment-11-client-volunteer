@@ -3,17 +3,19 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { RouterProvider } from 'react-router-dom'
 import routes from './C_P_R/routes/pages_routes.jsx'
-import { Helmet } from 'react-helmet'
 import AuthProvider from './C_P_R/provider/AuthProvider.jsx'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider>
-      <Helmet>
-        <title>Volunify</title>
-      </Helmet>
-      <RouterProvider router={routes} />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient} >
+      <AuthProvider>
+        <RouterProvider router={routes} />
+      </AuthProvider>
+    </QueryClientProvider>
+
 
   </React.StrictMode>,
 )

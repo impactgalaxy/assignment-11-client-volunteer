@@ -2,6 +2,7 @@ import auth from '../../../firebase.config';
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 const googleProvider = new GoogleAuthProvider();
 export const AuthContext = createContext(null);
 export default function AuthProvider({ children }) {
@@ -44,6 +45,9 @@ export default function AuthProvider({ children }) {
     return (
         <AuthContext.Provider value={authInfo}>
             {children}
+            <Helmet>
+                <title>Volunify</title>
+            </Helmet>
         </AuthContext.Provider>
     )
 }

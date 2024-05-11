@@ -5,6 +5,7 @@ import UserRegister from "../pages/UserRegister";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
 import AddVolunteerPost from "../pages/AddVolunteerPost";
+import NeedVolunteer from "../components/NeedVolunteer";
 
 
 const routes = createBrowserRouter([
@@ -26,8 +27,12 @@ const routes = createBrowserRouter([
                 element: <Login></Login>
             },
             {
-                path: "add-volunteer-post",
+                path: "/add-volunteer-post",
                 element: <AddVolunteerPost></AddVolunteerPost>
+            },
+            {
+                path: "/need-volunteer",
+                element: <NeedVolunteer></NeedVolunteer>
             }
         ]
     }

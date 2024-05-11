@@ -35,10 +35,11 @@ module.exports = withMT({
       neutral: colors.blueGray,
       stone: colors.stone,
     },
+    darkMode: "selector",
     extend: {},
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["light", "night"],
+    themes: ["light", "dark"],
   },
 });
