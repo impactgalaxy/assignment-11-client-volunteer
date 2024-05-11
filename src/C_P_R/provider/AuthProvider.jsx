@@ -10,6 +10,8 @@ export default function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [value, setValue] = useState("");
     const [deadlineOrder, setDeadlineOrder] = useState("");
+    const [pageNumber, setPageNumber] = useState(0);
+
 
     const createUser = (email, password) => {
         setLoading(true);
@@ -40,6 +42,8 @@ export default function AuthProvider({ children }) {
         value,
         setValue,
         deadlineOrder,
+        pageNumber,
+        setPageNumber,
         setDeadlineOrder,
         createUser,
         userLogin,

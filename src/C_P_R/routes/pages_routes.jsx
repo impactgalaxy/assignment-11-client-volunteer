@@ -37,7 +37,9 @@ const routes = createBrowserRouter([
             }, {
                 path: "/volunteer-need-details/:id",
                 element: <VolunteerNeedDetails></VolunteerNeedDetails>
-
+            },
+            {
+                path: "/be-volunteer",
             }
         ]
     }

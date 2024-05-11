@@ -6,7 +6,6 @@ export default function VolunteerNeedDetails() {
     const { data, isLoading } = useSingleVolunteerData();
     const { title, description, location, deadLine, numberOfVolunteer, organizationName, organizationEmail, photo, category } = data || {};
 
-    console.log(data, isLoading);
     if (isLoading) {
         return <Loading></Loading>
     }
