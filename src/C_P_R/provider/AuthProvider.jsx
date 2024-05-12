@@ -4,7 +4,7 @@ import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged,
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-// import useAxiosSecret from '../customHooks/useAxiosSecret';
+import axios from 'axios';
 const googleProvider = new GoogleAuthProvider();
 export const AuthContext = createContext(null);
 export default function AuthProvider({ children }) {
@@ -13,7 +13,6 @@ export default function AuthProvider({ children }) {
     const [value, setValue] = useState("");
     const [deadlineOrder, setDeadlineOrder] = useState("");
     const [pageNumber, setPageNumber] = useState(0);
-    // const axiosSecret = useAxiosSecret();
 
 
     const createUser = (email, password) => {
@@ -34,11 +33,16 @@ export default function AuthProvider({ children }) {
     }
     useEffect(() => {
         const loggedUser = onAuthStateChanged(auth, (currentUser) => {
+            const userEmail = currentUser?.email || user?.email;
+            const loggedEmail = currentUser?.email;
             setUser(currentUser);
             setLoading(false);
-            // if (currentUser) {
-            //     axios.post("/jwt", currentUser?.email)
-            // }
+            if (currentUser) {
+                axios.post(`${import.meta.env.VITE_API_KEY}/jwt`, { email: loggedEmail }, { withCredentials: true })
+                    .then(res => console.log(res.data))
+            } else {
+                axios.post(`${import.meta.env.VITE_API_KEY}/logout`, userEmail, { withCredentials: true }).then(res => console.log(res.data))
+            }
         })
         return () => loggedUser();
     })

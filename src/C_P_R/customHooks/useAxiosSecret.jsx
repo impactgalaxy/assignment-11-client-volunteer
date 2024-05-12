@@ -12,18 +12,22 @@ export default function useAxiosSecret() {
     const navigate = useNavigate();
 
     useEffect(() => {
-
         axiosSecret.interceptors.response.use((response) => {
+            console.log(response);
             return response;
+        }, (error) => {
+            if (error.response.request.status === 401 || error.response.request.status === 403) {
+                logOut()
+                    .then(() => {
+                        navigate("/user-login")
 
-        }, async (error) => {
-            console.log(error.response);
-            if (error.status === 401 || error.status === 403) {
-                await logOut();
-                navigate("/")
+                    }).catch(error => {
+                        console.log(error);
+                    })
             }
             return Promise.reject(error);
         })
+
     }, [logOut, navigate])
 
     return axiosSecret;
