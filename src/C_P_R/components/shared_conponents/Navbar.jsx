@@ -18,7 +18,7 @@ export default function Navbar() {
                     <summary>My Profile</summary>
                     <ul className="p-2 z-10">
                         <li><NavLink to="/add-volunteer-post">Add Post</NavLink></li>
-                        <li><NavLink to="/my-post">My Post</NavLink></li>
+                        <li><NavLink to="/manage-my-post">My Post</NavLink></li>
                     </ul>
                 </details>
             </li>

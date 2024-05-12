@@ -1,23 +1,22 @@
-import { useMutation } from "@tanstack/react-query";
 import useAuth from "../customHooks/useAuth"
-import axios from "axios";
+import useAxiosSecret from "../customHooks/useAxiosSecret";
+import Loading from "../components/Loading";
+import { useEffect, useState } from "react";
 
 export default function ManageMyPost() {
+    const [myData, setMyData] = useState([]);
+    const axiosSecret = useAxiosSecret();
 
     const { user } = useAuth();
-    const { isSuccess } = useMutation({
-        mutationFn: () => {
-            try {
-                const response = axios.get(`http://localhost:5000/becomeVolunteer?email=${user?.email}`)
-                return response.data
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        mutationKey: ["myData"]
-    })
-    console.log(isSuccess);
+    useEffect(() => {
+        axiosSecret.get(`/becomeVolunteer?email=${user?.email}`)
+            .then(data => setMyData(data.data))
+    }, [user?.email, axiosSecret]);
 
+    if (myData.length === 0) {
+        return <Loading></Loading>
+    }
+    console.log(myData);
     return (
         <div>
 
