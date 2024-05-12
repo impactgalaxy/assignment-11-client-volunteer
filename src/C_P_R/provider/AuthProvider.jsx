@@ -36,6 +36,7 @@ export default function AuthProvider({ children }) {
         })
         return () => loggedUser();
     })
+    console.log(user);
     const authInfo = {
         user,
         loading,

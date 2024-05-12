@@ -14,7 +14,8 @@ export default function useVolunteerData() {
             } catch (error) {
                 console.log(error.message);
             }
-        }
+        },
+        refetchOnWindowFocus: true
     })
     const { data: allData, isLoading: load } = useQuery({
         queryKey: ["countedData", value],
