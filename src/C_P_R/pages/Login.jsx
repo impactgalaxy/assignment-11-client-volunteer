@@ -1,12 +1,14 @@
 import { useForm } from "react-hook-form";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "/Volunify (1).png";
 import useAuth from "../customHooks/useAuth";
 import useToast from "../customHooks/useToast";
 export default function Login() {
     const { userLogin, googleLogin } = useAuth();
     const Toast = useToast();
+    const navigate = useNavigate();
+    const location = useLocation();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const handleLogin = async (data) => {
         const { email, password } = data;
@@ -17,6 +19,7 @@ export default function Login() {
                     icon: "success",
                     title: "Login successful"
                 })
+                navigate(location?.state ? location?.state : "/");
 
             }
         } catch (error) {
@@ -25,7 +28,7 @@ export default function Login() {
             if (error.code === "auth/invalid-credential") {
                 Toast.fire({
                     icon: "error",
-                    title: "Invalid username or password"
+                    title: "Invalid username or password or account not found"
                 })
                 return;
             }
@@ -43,6 +46,7 @@ export default function Login() {
                     icon: "success",
                     title: "Login successful"
                 })
+                navigate(location?.state ? location?.state : "/");
             }
 
         } catch (error) {

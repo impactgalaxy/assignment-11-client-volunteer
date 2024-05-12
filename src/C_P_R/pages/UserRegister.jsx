@@ -2,13 +2,14 @@ import { useForm } from "react-hook-form";
 import useAuth from "../customHooks/useAuth";
 import useToast from "../customHooks/useToast";
 import logo from "/Untitled design.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function UserRegister() {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const { createUser } = useAuth();
-    const Toast = useToast()
+    const Toast = useToast();
+    const navigate = useNavigate();
 
 
     const handleRegister = async (data) => {
@@ -21,6 +22,7 @@ export default function UserRegister() {
                     title: "Signed in successfully"
                 });
                 reset();
+                navigate("/");
 
             }
         } catch (error) {

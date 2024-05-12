@@ -1,14 +1,57 @@
+import { useForm } from "react-hook-form";
 import Loading from "../components/Loading";
+import useAuth from "../customHooks/useAuth";
 import useSingleVolunteerData from "../customHooks/useSingleVolunteerData"
+import axios from "axios";
+import Swal from "sweetalert2";
+import useToast from "../customHooks/useToast";
 
 export default function BeVolunteer() {
     const { data, isLoading } = useSingleVolunteerData();
+    const { user } = useAuth();
+    const Toast = useToast();
+    const { register, handleSubmit, formState: { errors } } = useForm()
     if (isLoading) {
         return <Loading></Loading>
     }
+
     const { _id, title, description, location, deadLine, numberOfVolunteer, organizationName, organizationEmail, photo, category } = data || {};
+
+
+    const handleRequest = async (data) => {
+        const name = user?.displayName ? user?.displayName : data.name;
+        const status = data.status === "" ? "Requested" : data.status;
+        const doc = {
+            title,
+            category,
+            location,
+            organizationEmail,
+            organizationName,
+            volunteerName: name,
+            volunteerEmail: user?.email,
+            suggestion: data.suggestion,
+            status,
+        }
+
+        try {
+            const response = await axios.post(`http://localhost:5000/becomeVolunteer?id=${_id}`, doc)
+            if (response.data.insertedId) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Congratulations!",
+                    text: "Now you are a volunteer"
+                })
+            }
+        } catch (error) {
+            Toast.fire({
+                icon: "error",
+                title: error.message
+            })
+        }
+        // console.log(doc);
+    }
     return (
-        <div>
+        <form onSubmit={handleSubmit(handleRequest)}>
             <div className="w-60 mx-auto my-5">
                 <img src={photo} className="object-cover object-center w-full rounded-md h-72 bg-gray-500 dark:bg-gray-500 pointer-events-none" alt="" />
             </div>
@@ -32,8 +75,8 @@ export default function BeVolunteer() {
 
                 </div>
                 <div className="space-y-4 lg:border-l-2 border-dashed px-2 lg:col-span-2">
-                    <input type="text" name="" id="" readOnly defaultValue={`${title} (name)`} className="input input-bordered w-full" />
-                    <input type="text" name="" id="" readOnly defaultValue={`${title} (email)`} className="input input-bordered w-full" />
+                    <input type="text" name="" id="" readOnly defaultValue={`${organizationName} (name)`} className="input input-bordered w-full" />
+                    <input type="text" name="" id="" readOnly defaultValue={`${organizationEmail} (email)`} className="input input-bordered w-full" />
 
                 </div>
             </div>
@@ -43,14 +86,17 @@ export default function BeVolunteer() {
 
                 </div>
                 <div className="space-y-4 lg:border-l-2 border-dashed px-2 lg:col-span-2">
-                    <input type="text" name="" id="" readOnly defaultValue="email" className="input input-bordered w-full" />
-                    <input type="text" name="" id="" readOnly defaultValue="name" className="input input-bordered w-full" />
-                    <input type="text" name="" id="" defaultValue="Requested" className="input input-bordered w-full" />
-                    <textarea name="" placeholder="Suggestion" className="input input-bordered w-full" id="" cols="30" rows="10"></textarea>
+                    <input type="text" name="" id="" placeholder={errors.name && errors.name.message} readOnly={user?.displayName ? true : false} defaultValue={user?.displayName} className="input input-bordered w-full" {...register("name", { required: user?.displayName ? false : "Please enter your name" })} />
+
+
+                    <input type="text" name="" id="" readOnly defaultValue={user?.email} className="input input-bordered w-full" />
+                    <input type="text" name="" id="" defaultValue="Requested" className="input input-bordered w-full" {...register("status")} />
+                    <textarea name="" {...register("suggestion")} placeholder="Suggestion (if any)" className="input input-bordered w-full" id="" cols="30" rows="10"></textarea>
 
                 </div>
+
             </div>
             <input type="submit" value="Request" className="btn btn-block lg:w-1/2 block mx-auto" />
-        </div>
+        </form>
     )
 }
