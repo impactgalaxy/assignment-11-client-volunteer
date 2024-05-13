@@ -1,36 +1,88 @@
 import useAuth from "../customHooks/useAuth"
 import useAxiosSecret from "../customHooks/useAxiosSecret";
 import Loading from "../components/Loading";
-import { useEffect, useState } from "react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import { Card, Image, CardBody, CardFooter, Text, Stack, Heading, Divider, ButtonGroup, Button } from '@chakra-ui/react'
+import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import useToast from "../customHooks/useToast";
 
 
 export default function ManageMyPost() {
-    const [myData, setMyData] = useState([]);
+    const Toast = useToast();
+
     const axiosSecret = useAxiosSecret();
-    const [posted, setPosted] = useState([])
-
     const { user } = useAuth();
-    useEffect(() => {
-        axiosSecret.get(`/becomeVolunteer?email=${user?.email}`)
-            .then(data => setMyData(data.data))
-    }, [user?.email, axiosSecret]);
 
-    useEffect(() => {
-        axiosSecret.get(`/volunteerSecure?email=${user?.email}`)
-            .then(res => setPosted(res.data))
-            .catch(error => {
-                console.log(error);
-            })
-    }, [axiosSecret, user?.email])
 
-    if (myData.length === 0 || posted.length === 0) {
+    const { data: volunteerPost = [], isLoading: loadingForPost, refetch } = useQuery({
+        queryKey: ['postData', user?.email, axiosSecret],
+        queryFn: () => volunteerNeedPostData()
+    })
+
+
+    const { data: volunteerReqData = [], isLoading: loadingForReq } = useQuery({
+        queryKey: ["requestData", user?.email, axiosSecret],
+        queryFn: () => reqForVolunteerData(),
+
+    })
+    const volunteerNeedPostData = async () => {
+        const response = await axiosSecret(`/volunteerSecure?email=${user?.email}`)
+        return response.data;
+    }
+    const reqForVolunteerData = async () => {
+        const response = await axiosSecret(`/becomeVolunteer?email=${user?.email}`)
+        return response.data;
+    }
+    if (loadingForPost || loadingForReq) {
         return <Loading></Loading>
     }
-    console.log("posted data", posted, "me volunteer", myData);
+
+    const handleDelete = (_id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecret.delete(`/volunteer/${_id}`)
+                    .then(response => {
+                        if (response.data.deletedCount) {
+                            Toast.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    refetch();
+                                }
+                            })
+                        }
+                    })
+                    .catch(error => {
+                        Toast.fire({
+                            icon: "error",
+                            title: error.message
+                        })
+                    })
+
+            }
+        });
+    }
+
     return (
         <div>
+            <Helmet>
+                <title>
+                    Manage my post
+                </title>
+            </Helmet>
             <Tabs isFitted variant='enclosed'>
                 <TabList mb='1em'>
                     <Tab>My need volunteer</Tab>
@@ -39,7 +91,8 @@ export default function ManageMyPost() {
                 <TabPanels>
 
                     <TabPanel>
-                        {posted.map(post => {
+                        {volunteerPost.length === 0 && <div className="text-center text-3xl p-10">No data found</div>}
+                        {volunteerPost.map(post => {
                             return (
                                 <Card
                                     key={post._id}
@@ -65,12 +118,13 @@ export default function ManageMyPost() {
                                         </CardBody>
 
                                         <CardFooter className="space-x-5">
-                                            <Button variant='solid' colorScheme='blue' className="bg-warning">
+                                            <Button variant='solid' colorScheme='red' onClick={() => handleDelete(post._id)}>
                                                 Delete
                                             </Button>
-                                            <Button variant='solid' colorScheme='blue'>
-                                                Update
-                                            </Button>
+                                            <Link
+                                                className=""
+                                                to={`/update-volunteer-need-post/${post._id}`}><Button variant='solid' colorScheme='blue'>Update</Button></Link>
+
                                         </CardFooter>
                                     </Stack>
                                 </Card>
@@ -79,7 +133,8 @@ export default function ManageMyPost() {
                     </TabPanel>
                     <TabPanel>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
-                            {myData.map((item, idx) => {
+                            {volunteerReqData.length === 0 && <div className="text-center text-3xl p-10">No data found</div>}
+                            {volunteerReqData.map((item, idx) => {
                                 return (
                                     <Card maxW='sm' key={idx}>
                                         <CardBody>

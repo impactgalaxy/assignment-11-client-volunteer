@@ -13,7 +13,6 @@ export default function useAxiosSecret() {
 
     useEffect(() => {
         axiosSecret.interceptors.response.use((response) => {
-            console.log(response);
             return response;
         }, (error) => {
             if (error.response.request.status === 401 || error.response.request.status === 403) {

@@ -12,20 +12,17 @@ export default function AddVolunteerPost() {
     const { register, formState: { errors }, handleSubmit, setValue, reset } = useForm();
     const { user } = useAuth();
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const dd = selectedDate.toLocaleDateString().split("/")[1];
-    const mm = selectedDate.toLocaleDateString().split("/")[0];
-    const yy = selectedDate.toLocaleDateString().split("/")[2];
-    const date = `${dd} ${mm} ${yy}`
-    console.log(date);
+
+
+    const date = selectedDate.toLocaleDateString()
+
 
     const handleAddPost = async (data) => {
         data.deadLine = date;
-        console.log(data);
         setValue("organizationName", user?.displayName);
         setValue("organizationEmail", user?.email);
         try {
             const response = await axios.post("http://localhost:5000/volunteer", data);
-            console.log(response);
             if (response.data.insertedId) {
                 Toast.fire({
                     icon: "success",
@@ -34,7 +31,6 @@ export default function AddVolunteerPost() {
                 reset()
             }
         } catch (error) {
-            console.log(error);
             Toast.fire({
                 icon: "error",
                 title: error.message

@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import useSingleVolunteerData from "../customHooks/useSingleVolunteerData"
+import Swal from "sweetalert2";
 
 export default function VolunteerNeedDetails() {
     const { data, isLoading } = useSingleVolunteerData();
@@ -39,7 +40,26 @@ export default function VolunteerNeedDetails() {
 
                 </div>
                 <div>
-                    <Link to={`/be-volunteer/${_id}`} className="btn btn-block bg-gradient-to-t from-teal-400 to-sky-400">Be a volunteer</Link>
+                    {
+                        numberOfVolunteer === 0 ? <button className="btn btn-block bg-gradient-to-t from-teal-400 to-sky-400" onClick={() => {
+                            if (numberOfVolunteer === 0) {
+                                Swal.fire({
+                                    icon: "info",
+                                    title: "Attention",
+                                    text: "You can't be volunteer bcz no seat available",
+
+                                })
+                            }
+                        }} >
+                            Be a Volunteer
+                        </button>
+                            :
+                            <button
+                                className="w-full">
+                                <Link to={`/be-volunteer/${_id}`} className="btn btn-block bg-gradient-to-t from-teal-400 to-sky-400"  >Be a volunteer</Link>
+
+                            </button>
+                    }
 
                 </div>
 
