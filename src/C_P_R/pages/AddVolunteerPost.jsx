@@ -18,6 +18,7 @@ export default function AddVolunteerPost() {
 
 
     const handleAddPost = async (data) => {
+        data.volunteerData = [];
         data.deadLine = date;
         setValue("organizationName", user?.displayName);
         setValue("organizationEmail", user?.email);
@@ -37,6 +38,7 @@ export default function AddVolunteerPost() {
             })
         }
     }
+    console.log(date);
     return (
         <section className="p-6 bg-gray-800 ">
             <Helmet>

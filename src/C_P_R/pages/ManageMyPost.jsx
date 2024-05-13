@@ -23,7 +23,7 @@ export default function ManageMyPost() {
     })
 
 
-    const { data: volunteerReqData = [], isLoading: loadingForReq } = useQuery({
+    const { data: volunteerReqData = [], isLoading: loadingForReq, refetch: reFetch } = useQuery({
         queryKey: ["requestData", user?.email, axiosSecret],
         queryFn: () => reqForVolunteerData(),
 
@@ -75,7 +75,26 @@ export default function ManageMyPost() {
             }
         });
     }
-    // 
+    //handle cancel
+    const handleCancel = async (id, organizationEmail) => {
+        console.log(id, organizationEmail);
+        try {
+            const response = await axiosSecret.delete(`${import.meta.env.VITE_API_KEY}/becomeVolunteer/${id}?organizationEmail=${organizationEmail}`)
+            if (response.data.deletedCount) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Successful!",
+                    text: "Your request cancel"
+                })
+                reFetch()
+            }
+        } catch (error) {
+            Toast.fire({
+                icon: "error",
+                title: error.message
+            });
+        }
+    }
     return (
         <div>
             <Helmet>
@@ -182,7 +201,7 @@ export default function ManageMyPost() {
                                         <Divider></Divider>
                                         <CardFooter>
                                             <ButtonGroup spacing='2'>
-                                                <Button variant='solid' colorScheme='blue'>
+                                                <Button onClick={() => handleCancel(item._id, item.organizationEmail)} variant='solid' colorScheme='blue'>
                                                     Cancel
                                                 </Button>
 
