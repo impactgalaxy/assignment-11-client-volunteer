@@ -40,7 +40,6 @@ export default function UpdateVolunteerPost() {
             })
         }
         const updateDoc = { title, category, description, location, numberOfVolunteer, photo, deadLine }
-        console.log(updateDoc);
 
         try {
             const res = await axios.patch(`${import.meta.env.VITE_API_KEY}/volunteer/${_id}`, updateDoc)

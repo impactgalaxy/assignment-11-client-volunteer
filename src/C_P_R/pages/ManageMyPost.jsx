@@ -75,7 +75,7 @@ export default function ManageMyPost() {
             }
         });
     }
-
+    // 
     return (
         <div>
             <Helmet>
@@ -92,45 +92,66 @@ export default function ManageMyPost() {
 
                     <TabPanel>
                         {volunteerPost.length === 0 && <div className="text-center text-3xl p-10">No data found</div>}
-                        {volunteerPost.map(post => {
-                            return (
-                                <Card
-                                    key={post._id}
-                                    direction={{ base: 'column', sm: 'row' }}
-                                    overflow='hidden'
-                                    variant='outline'
-                                    className="mb-5"
-                                >
-                                    <Image
-                                        objectFit='cover'
-                                        maxW={{ base: '100%', sm: '200px' }}
-                                        src={post.photo}
-                                        alt='Caffe Latte'
-                                    />
+                        {
+                            volunteerPost.map(post => {
+                                return (
+                                    <Card
+                                        key={post._id}
+                                        direction={{ base: 'column', sm: 'row' }}
+                                        overflow='hidden'
+                                        variant='outline'
+                                        className="mb-5"
+                                    >
+                                        <Image
+                                            objectFit='cover'
+                                            maxW={{ base: '100%', sm: '200px' }}
+                                            src={post.photo}
+                                            alt='Caffe Latte'
+                                        />
 
-                                    <Stack>
-                                        <CardBody>
-                                            <Heading size='md'>{post.title}</Heading>
+                                        <Stack className="p-4">
+                                            <div className="grid grid-cols-1 lg:grid-cols-2 justify-items-start gap-4">
+                                                <div>
+                                                    <Heading size='md'>{post.title}</Heading>
 
-                                            <Text py='2'>
-                                                {post.description}
-                                            </Text>
-                                        </CardBody>
+                                                    <Text py='2'>
+                                                        {post.description}
+                                                    </Text>
+                                                </div>
+                                                <div className="text-center">
+                                                    <Heading size="md">Volunteer</Heading>
 
-                                        <CardFooter className="space-x-5">
-                                            <Button variant='solid' colorScheme='red' onClick={() => handleDelete(post._id)}>
-                                                Delete
-                                            </Button>
-                                            <Link
-                                                className=""
-                                                to={`/update-volunteer-need-post/${post._id}`}><Button variant='solid' colorScheme='blue'>Update</Button></Link>
+                                                    {
+                                                        Object.prototype.hasOwnProperty.call(post, "volunteerInfo") ?
+                                                            <CardBody>
+                                                                <Text>{post?.volunteerInfo?.name}</Text>
+                                                                <Text>{post?.volunteerInfo?.email}</Text>
+                                                                <Text>{post?.volunteerInfo?.status}</Text>
+                                                            </CardBody> :
+                                                            <Heading size="xm">No Volunteer yet add</Heading>
+                                                    }
+                                                </div>
 
-                                        </CardFooter>
-                                    </Stack>
-                                </Card>
-                            )
-                        })}
+                                            </div>
+
+                                            <CardFooter className="space-x-5">
+                                                <Button variant='solid' colorScheme='red' onClick={() => handleDelete(post._id)}>
+                                                    Delete
+                                                </Button>
+                                                <Link
+                                                    className=""
+                                                    to={`/update-volunteer-need-post/${post._id}`}><Button variant='solid' colorScheme='blue'>Update</Button></Link>
+
+                                            </CardFooter>
+                                        </Stack>
+                                    </Card>
+                                )
+                            })
+                        }
+
+
                     </TabPanel>
+
                     <TabPanel>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
                             {volunteerReqData.length === 0 && <div className="text-center text-3xl p-10">No data found</div>}

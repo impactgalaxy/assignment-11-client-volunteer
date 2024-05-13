@@ -32,6 +32,14 @@ export default function BeVolunteer() {
             suggestion: data.suggestion,
             status,
         }
+        if (organizationEmail === user?.email) {
+            return Toast.fire({
+                icon: "error",
+                title: "You can't be volunteer bcz you are post creator",
+                text: "Please try another post"
+            })
+        }
+
 
         try {
             const response = await axios.post(`http://localhost:5000/becomeVolunteer?id=${_id}`, doc)
