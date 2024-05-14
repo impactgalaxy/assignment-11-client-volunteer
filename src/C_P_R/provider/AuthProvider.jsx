@@ -32,21 +32,20 @@ export default function AuthProvider({ children }) {
         return signOut(auth);
     }
     useEffect(() => {
-        const loggedUser = onAuthStateChanged(auth, (currentUser) => {
+        const loggedUser = onAuthStateChanged(auth, async (currentUser) => {
             const userEmail = currentUser?.email || user?.email;
             const loggedEmail = { email: userEmail };
-            console.log("logged", loggedEmail, "userEmail", userEmail);
             setUser(currentUser);
             setLoading(false);
             if (currentUser) {
-                axios.post(`${import.meta.env.VITE_API_KEY}/jwt`, loggedEmail, { withCredentials: true }).then(() => {
-                    // message-success
-                })
-            } else {
-                axios.post(`${import.meta.env.VITE_API_KEY}/logout`, loggedEmail, { withCredentials: true }).then(() => {
-                    // console.log(res.data)
-                })
+                try {
+                    await axios.post(`${import.meta.env.VITE_API_KEY}/jwt`, loggedEmail, { withCredentials: true });
+
+                } catch (error) {
+                    console.log(error.message);
+                }
             }
+
         })
         return () => {
             return loggedUser();

@@ -5,8 +5,10 @@ import useSingleVolunteerData from "../customHooks/useSingleVolunteerData"
 import axios from "axios";
 import Swal from "sweetalert2";
 import useToast from "../customHooks/useToast";
+import moment from "moment";
 
 export default function BeVolunteer() {
+    const moment2 = moment().subtract(1, 'days')
     const { data, isLoading } = useSingleVolunteerData();
     const { user } = useAuth();
     const Toast = useToast();
@@ -31,6 +33,14 @@ export default function BeVolunteer() {
             volunteerEmail: user?.email,
             suggestion: data.suggestion,
             status,
+        }
+        const date = new Date(deadLine);
+        if (date > moment2) {
+            return Toast.fire({
+                icon: "error",
+                title: "Deadline over!",
+                text: "Try another post"
+            })
         }
         if (organizationEmail === user?.email) {
             return Toast.fire({

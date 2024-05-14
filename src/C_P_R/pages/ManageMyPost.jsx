@@ -1,5 +1,4 @@
 import useAuth from "../customHooks/useAuth"
-import useAxiosSecret from "../customHooks/useAxiosSecret";
 import Loading from "../components/Loading";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import { Card, Image, CardBody, CardFooter, Text, Stack, Heading, Divider, ButtonGroup, Button } from '@chakra-ui/react'
@@ -8,32 +7,32 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import useToast from "../customHooks/useToast";
+import axios from "axios";
 
 
 export default function ManageMyPost() {
     const Toast = useToast();
 
-    const axiosSecret = useAxiosSecret();
     const { user } = useAuth();
 
 
     const { data: volunteerPost = [], isLoading: loadingForPost, refetch } = useQuery({
-        queryKey: ['postData', user?.email, axiosSecret],
+        queryKey: ['postData', user?.email,],
         queryFn: () => volunteerNeedPostData()
     })
 
 
     const { data: volunteerReqData = [], isLoading: loadingForReq, refetch: reFetch } = useQuery({
-        queryKey: ["requestData", user?.email, axiosSecret],
+        queryKey: ["requestData", user?.email,],
         queryFn: () => reqForVolunteerData(),
 
     })
     const volunteerNeedPostData = async () => {
-        const response = await axiosSecret(`/volunteerSecure?email=${user?.email}`)
+        const response = await axios(`${import.meta.env.VITE_API_KEY}/volunteerSecure?email=${user?.email}`)
         return response.data;
     }
     const reqForVolunteerData = async () => {
-        const response = await axiosSecret(`/becomeVolunteer?email=${user?.email}`)
+        const response = await axios(`${import.meta.env.VITE_API_KEY}/becomeVolunteer?email=${user?.email}`)
         return response.data;
     }
     if (loadingForPost || loadingForReq) {
@@ -51,7 +50,7 @@ export default function ManageMyPost() {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecret.delete(`/volunteer/${_id}`)
+                axios.delete(`${import.meta.env.VITE_API_KEY}/volunteer/${_id}`)
                     .then(response => {
                         if (response.data.deletedCount > 0) {
                             Toast.fire({
@@ -85,7 +84,7 @@ export default function ManageMyPost() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const response = await axiosSecret.delete(`${import.meta.env.VITE_API_KEY}/becomeVolunteer/${id}?organizationEmail=${organizationEmail}`)
+                    const response = await axios.delete(`${import.meta.env.VITE_API_KEY}/becomeVolunteer/${id}?organizationEmail=${organizationEmail}`)
                     if (response.data.deletedCount > 0) {
                         Toast.fire({
                             icon: "success",

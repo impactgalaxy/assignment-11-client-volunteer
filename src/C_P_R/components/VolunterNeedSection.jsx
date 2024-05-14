@@ -19,7 +19,7 @@ export default function VolunterNeedSection() {
             const response = await axios(`${import.meta.env.VITE_API_KEY}/volunteerSection`)
             return response.data
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
         }
     }
     if (isLoading) {
