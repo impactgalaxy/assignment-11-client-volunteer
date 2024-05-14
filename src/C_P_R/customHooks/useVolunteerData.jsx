@@ -9,7 +9,8 @@ export default function useVolunteerData() {
         queryKey: ["volunteer", value, deadlineOrder, pageNumber],
         queryFn: async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/volunteer?find=${value}&sort=${deadlineOrder}&pageNo=${pageNumber}&size=${4}`)
+                const response = await axios.get(`http://localhost:5000/volunteer?find=${value}&sort=${deadlineOrder}&pageNo=${pageNumber}&size=${4}`);
+
                 return response.data
             } catch (error) {
                 console.log(error.message);

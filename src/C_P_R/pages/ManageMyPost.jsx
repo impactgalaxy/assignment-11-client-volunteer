@@ -53,16 +53,13 @@ export default function ManageMyPost() {
             if (result.isConfirmed) {
                 axiosSecret.delete(`/volunteer/${_id}`)
                     .then(response => {
-                        if (response.data.deletedCount) {
+                        if (response.data.deletedCount > 0) {
                             Toast.fire({
                                 title: "Deleted!",
                                 text: "Your file has been deleted.",
                                 icon: "success"
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    refetch();
-                                }
                             })
+                            refetch();
                         }
                     })
                     .catch(error => {
@@ -78,22 +75,37 @@ export default function ManageMyPost() {
     //handle cancel
     const handleCancel = async (id, organizationEmail) => {
         console.log(id, organizationEmail);
-        try {
-            const response = await axiosSecret.delete(`${import.meta.env.VITE_API_KEY}/becomeVolunteer/${id}?organizationEmail=${organizationEmail}`)
-            if (response.data.deletedCount) {
-                Toast.fire({
-                    icon: "success",
-                    title: "Successful!",
-                    text: "Your request cancel"
-                })
-                reFetch()
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await axiosSecret.delete(`${import.meta.env.VITE_API_KEY}/becomeVolunteer/${id}?organizationEmail=${organizationEmail}`)
+                    console.log(response.data);
+                    if (response.data.deletedCount > 0) {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Successful!",
+                            text: "Your request cancel"
+                        })
+                        reFetch()
+                    }
+                } catch (error) {
+                    Toast.fire({
+                        icon: "error",
+                        title: error.message
+                    });
+                }
             }
-        } catch (error) {
-            Toast.fire({
-                icon: "error",
-                title: error.message
-            });
-        }
+
+        })
+
     }
     return (
         <div>
@@ -172,8 +184,9 @@ export default function ManageMyPost() {
                     </TabPanel>
 
                     <TabPanel>
+                        {volunteerReqData.length === 0 && <div className="text-center text-3xl p-10">No data found</div>}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
-                            {volunteerReqData.length === 0 && <div className="text-center text-3xl p-10">No data found</div>}
+
                             {volunteerReqData.map((item, idx) => {
                                 return (
                                     <Card maxW='sm' key={idx}>

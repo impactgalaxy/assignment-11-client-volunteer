@@ -7,15 +7,20 @@ import useToast from "../customHooks/useToast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import moment from "moment";
+import useAuth from "../customHooks/useAuth";
 
 export default function UpdateVolunteerPost() {
     const { data, isLoading } = useSingleVolunteerData();
+    const { user } = useAuth()
     const { _id, title, description, location, numberOfVolunteer, organizationName, organizationEmail, category } = data || {};
     const navigate = useNavigate()
 
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const Toast = useToast();
+    const moment2 = moment().subtract(1, 'days')
+    const compare = moment2._d < selectedDate;
 
 
     if (isLoading) {
@@ -32,11 +37,11 @@ export default function UpdateVolunteerPost() {
         const numberOfVolunteer = form.numberOfVolunteer.value;
         const photo = form.photo.value;
         const deadLine = selectedDate.toLocaleDateString();
-        const now = new Date().toLocaleDateString();
-        if (now === deadLine) {
+        if (!compare) {
             return Toast.fire({
-                icon: "error",
-                title: "You should change deadline"
+                icon: "warning",
+                title: "Attention!",
+                text: "You can't select date before today"
             })
         }
         const updateDoc = { title, category, description, location, numberOfVolunteer, photo, deadLine }
@@ -100,9 +105,9 @@ export default function UpdateVolunteerPost() {
                 </div>
 
                 <div>
-                    <input type="text" name="" id="" className="input input-bordered" readOnly defaultValue={organizationName} />
+                    <input type="text" name="" id="" className="input input-bordered" readOnly defaultValue={user?.displayName ? user?.displayName : organizationName} />
 
-                    <input type="text" name="" id="" className="input input-bordered" readOnly defaultValue={organizationEmail} />
+                    <input type="text" name="" id="" className="input input-bordered" readOnly defaultValue={organizationEmail || user?.email} />
 
                 </div>
 

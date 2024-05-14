@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import useToast from "../customHooks/useToast";
 import { Helmet } from "react-helmet";
+import moment from "moment";
 
 export default function AddVolunteerPost() {
     const Toast = useToast();
@@ -13,8 +14,11 @@ export default function AddVolunteerPost() {
     const { user } = useAuth();
     const [selectedDate, setSelectedDate] = useState(new Date());
 
+    const moment2 = moment().subtract(1, 'days')
+    const compare = moment2._d < selectedDate;
 
-    const date = selectedDate.toLocaleDateString()
+
+    const date = selectedDate.toLocaleDateString();
 
 
     const handleAddPost = async (data) => {
@@ -22,6 +26,13 @@ export default function AddVolunteerPost() {
         data.deadLine = date;
         setValue("organizationName", user?.displayName);
         setValue("organizationEmail", user?.email);
+        if (!compare) {
+            return Toast.fire({
+                icon: "warning",
+                title: "Attention!",
+                text: "You can't select date before today"
+            })
+        }
         try {
             const response = await axios.post("http://localhost:5000/volunteer", data);
             if (response.data.insertedId) {
@@ -38,7 +49,7 @@ export default function AddVolunteerPost() {
             })
         }
     }
-    console.log(date);
+    // console.log(date);
     return (
         <section className="p-6 bg-gray-800 ">
             <Helmet>

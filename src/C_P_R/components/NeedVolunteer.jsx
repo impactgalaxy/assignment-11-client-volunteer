@@ -13,8 +13,7 @@ import useAuth from "../customHooks/useAuth";
 export default function NeedVolunteer() {
     const [searchValue, setSearchValue] = useState("");
     const { setValue, setDeadlineOrder, setPageNumber, pageNumber } = useAuth();
-    const { data, isLoading, allData, load, } = useVolunteerData();
-
+    const { data, isLoading, allData, load, refetch } = useVolunteerData();
 
 
     if (isLoading || load) {
@@ -22,7 +21,7 @@ export default function NeedVolunteer() {
     }
     const totalPage = Math.ceil(allData.count / 4);
     const page = [...Array(totalPage).keys()];
-    console.log(data.length, allData.count, page, totalPage);
+    console.log(typeof data, typeof refetch, typeof isLoading, typeof allData);
     return (
         <div>
             <Helmet>
@@ -51,11 +50,15 @@ export default function NeedVolunteer() {
                         size="sm"
                         color="white"
                         className="!absolute right-1 top-1 rounded"
-                        onClick={() => setValue(searchValue)}
+                        onClick={() => {
+                            refetch()
+                            setValue(searchValue)
+                        }}
                     >
                         Search
                     </Button>
                 </div>
+                <Button onClick={() => setValue("")}>Reset</Button>
 
             </div>
             <div className="py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center container mx-auto gap-5">
