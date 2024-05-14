@@ -22,7 +22,6 @@ export default function VolunterNeedSection() {
             console.log(error);
         }
     }
-    console.log(data);
     if (isLoading) {
         return <Loading></Loading>
     }
@@ -52,7 +51,7 @@ export default function VolunterNeedSection() {
                             <div key={post._id} className="flex flex-col max-w-xs p-6 rounded-md shadow-md dark:bg-gray-50 dark:text-gray-900">
                                 <img src={post.photo} alt="" className="object-cover object-center w-full rounded-md h-72 dark:bg-gray-500" />
                                 <div className="text-center flex items-center justify-between text-xs font-medium tracking-widest uppercase text-violet-600">
-                                    <p>Deadline: {new Date(post.deadLine) > moment2 ? "" : "over"}<br></br> <span className={`text-lg ${today === post.deadLine ? "text-pink-200" : ""}`}>{new Date(post.deadLine) > moment2 ? post.deadLine : <del>{post.deadLine}</del>}</span></p>
+                                    <p>Deadline: {new Date(post.deadLine) > moment2 ? "" : "over"}<br></br> <span className={`text-lg ${today === post.deadLine ? "text-red-500" : ""}`}>{new Date(post.deadLine) > moment2 ? post.deadLine : <del>{post.deadLine}</del>}</span></p>
                                     <p>Volunteer need: <br></br> <span className="text-lg">{post.numberOfVolunteer}</span></p>
                                 </div>
                                 <div className="my-6 py-2">

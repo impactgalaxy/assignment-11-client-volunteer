@@ -34,17 +34,23 @@ export default function AuthProvider({ children }) {
     useEffect(() => {
         const loggedUser = onAuthStateChanged(auth, (currentUser) => {
             const userEmail = currentUser?.email || user?.email;
-            const loggedEmail = currentUser?.email;
+            const loggedEmail = { email: userEmail };
+            console.log("logged", loggedEmail, "userEmail", userEmail);
             setUser(currentUser);
             setLoading(false);
             if (currentUser) {
-                axios.post(`${import.meta.env.VITE_API_KEY}/jwt`, { email: loggedEmail }, { withCredentials: true })
-                    .then(res => console.log(res.data))
+                axios.post(`${import.meta.env.VITE_API_KEY}/jwt`, loggedEmail, { withCredentials: true }).then(() => {
+                    // message-success
+                })
             } else {
-                axios.post(`${import.meta.env.VITE_API_KEY}/logout`, userEmail, { withCredentials: true }).then(res => console.log(res.data))
+                axios.post(`${import.meta.env.VITE_API_KEY}/logout`, loggedEmail, { withCredentials: true }).then(() => {
+                    // console.log(res.data)
+                })
             }
         })
-        return () => loggedUser();
+        return () => {
+            return loggedUser();
+        };
     })
     const authInfo = {
         user,

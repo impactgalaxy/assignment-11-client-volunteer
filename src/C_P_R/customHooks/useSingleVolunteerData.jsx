@@ -8,7 +8,7 @@ export default function useSingleVolunteerData() {
         queryKey: ["singleVolunteer"],
         queryFn: async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/volunteer/${id}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_KEY}/volunteer/${id}`);
                 return response.data;
             } catch (error) {
                 console.log(error.message);

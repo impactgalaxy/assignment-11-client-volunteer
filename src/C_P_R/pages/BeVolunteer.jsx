@@ -42,7 +42,7 @@ export default function BeVolunteer() {
 
 
         try {
-            const response = await axios.post(`http://localhost:5000/becomeVolunteer?id=${_id}`, doc)
+            const response = await axios.post(`${import.meta.env.VITE_API_KEY}/becomeVolunteer?id=${_id}`, doc)
             if (response.data.insertedId) {
                 Swal.fire({
                     icon: "success",
@@ -56,7 +56,6 @@ export default function BeVolunteer() {
                 title: error.message
             })
         }
-        // console.log(doc);
     }
     return (
         <form onSubmit={handleSubmit(handleRequest)}>

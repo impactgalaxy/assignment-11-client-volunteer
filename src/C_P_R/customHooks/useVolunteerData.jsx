@@ -9,7 +9,7 @@ export default function useVolunteerData() {
         queryKey: ["volunteer", value, deadlineOrder, pageNumber],
         queryFn: async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/volunteer?find=${value}&sort=${deadlineOrder}&pageNo=${pageNumber}&size=${4}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_KEY}/volunteer?find=${value}&sort=${deadlineOrder}&pageNo=${pageNumber}&size=${6}`);
 
                 return response.data
             } catch (error) {
@@ -17,11 +17,11 @@ export default function useVolunteerData() {
             }
         },
     })
-    const { data: allData = 0, isLoading: load } = useQuery({
+    const { data: allData, isLoading: load } = useQuery({
         queryKey: ["countedData", value],
         queryFn: async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/count?filter=${value}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_KEY}/count?filter=${value}`);
                 return response.data;
             } catch (error) {
                 console.log(error.message);

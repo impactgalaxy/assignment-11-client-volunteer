@@ -74,7 +74,6 @@ export default function ManageMyPost() {
     }
     //handle cancel
     const handleCancel = async (id, organizationEmail) => {
-        console.log(id, organizationEmail);
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -87,7 +86,6 @@ export default function ManageMyPost() {
             if (result.isConfirmed) {
                 try {
                     const response = await axiosSecret.delete(`${import.meta.env.VITE_API_KEY}/becomeVolunteer/${id}?organizationEmail=${organizationEmail}`)
-                    console.log(response.data);
                     if (response.data.deletedCount > 0) {
                         Toast.fire({
                             icon: "success",

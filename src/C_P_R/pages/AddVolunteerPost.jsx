@@ -34,7 +34,7 @@ export default function AddVolunteerPost() {
             })
         }
         try {
-            const response = await axios.post("http://localhost:5000/volunteer", data);
+            const response = await axios.post(`${import.meta.env.VITE_API_KEY}/volunteer`, data);
             if (response.data.insertedId) {
                 Toast.fire({
                     icon: "success",
@@ -49,7 +49,6 @@ export default function AddVolunteerPost() {
             })
         }
     }
-    // console.log(date);
     return (
         <section className="p-6 bg-gray-800 ">
             <Helmet>

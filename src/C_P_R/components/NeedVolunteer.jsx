@@ -5,12 +5,17 @@ import { Link } from "react-router-dom";
 import { Button, Input, Select, Option } from "@material-tailwind/react";
 import { useState } from "react";
 import useAuth from "../customHooks/useAuth";
+import { ImTable2 } from "react-icons/im";
+import { MdTableRows } from "react-icons/md";
+
 
 /**
  * @Note: It's a page but unfortunately I use in shared_components
  **/
 
 export default function NeedVolunteer() {
+    const [view, setView] = useState(false);
+
     const [searchValue, setSearchValue] = useState("");
     const { setValue, setDeadlineOrder, setPageNumber, pageNumber } = useAuth();
     const { data, isLoading, allData, load, refetch } = useVolunteerData();
@@ -19,9 +24,10 @@ export default function NeedVolunteer() {
     if (isLoading || load) {
         return <Loading></Loading>
     }
-    const totalPage = Math.ceil(allData.count / 4);
+    const totalPage = Math.ceil(allData.count / 6);
     const page = [...Array(totalPage).keys()];
-    console.log(typeof data, typeof refetch, typeof isLoading, typeof allData);
+
+
     return (
         <div>
             <Helmet>
@@ -61,13 +67,85 @@ export default function NeedVolunteer() {
                 <Button onClick={() => setValue("")}>Reset</Button>
 
             </div>
-            <div className="py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center container mx-auto gap-5">
+            <div className="relative py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center container mx-auto gap-5">
+                <div className="flex items-center gap-3 absolute top-0 right-4">
+                    {
+                        !view ? <MdTableRows onClick={() => setView(true)} title="view table" className="text-5xl cursor-pointer"></MdTableRows> :
+                            <ImTable2 onClick={() => setView(false)} title="view column" className="text-4xl cursor-pointer"></ImTable2>
+                    }
+
+                </div>
                 {data.length === 0 && <div className="p-8 space-y-5 text-center md:col-span-3 lg:col-span-3">
                     <p className="text-2xl lg:text-3xl">No data found</p>
                     <p onClick={() => location.reload()} className="px-3 py-2 border">Back</p>
                 </div>}
                 {
-                    data.map(post => {
+                    view && <div className="container p-2 mx-auto sm:p-4 dark:text-gray-800 md:col-span-2 lg:col-span-3">
+                        <h2 className="mb-4 text-2xl font-semibold leading-tight">Volunteer Need Post</h2>
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full text-xs lg:text-sm">
+                                <colgroup>
+                                    <col />
+                                    <col />
+                                    <col />
+                                    <col />
+                                    <col />
+                                    <col className="w-24" />
+                                </colgroup>
+                                <thead className="dark:bg-gray-300">
+                                    <tr className="text-left">
+                                        <th className="p-3">Thumbnail</th>
+                                        <th className="p-3">Title</th>
+                                        <th className="p-3">Category</th>
+                                        <th className="p-3">Volunteer Need</th>
+                                        <th className="p-3">Location</th>
+                                        <th className="p-3 text-right">Dead Line</th>
+                                        <th className="p-3"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {
+                                        data.map(post => {
+                                            return (
+                                                <tr key={post._id} className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50 mb-5">
+                                                    <td>
+                                                        <img src={post.photo} alt="" className="w-40 h-10 object-cover" />
+                                                    </td>
+                                                    <td className="p-3">
+                                                        <p>{post.title}</p>
+                                                    </td>
+                                                    <td className="p-3">
+                                                        <p>{post.category}</p>
+                                                    </td>
+                                                    <td className="p-3">
+                                                        <p>{post.numberOfVolunteer}</p>
+
+                                                    </td>
+                                                    <td className="p-3">
+                                                        <p>{post.location}</p>
+
+                                                    </td>
+                                                    <td className="p-3 text-right">
+                                                        <p>{post.numberOfVolunteer}</p>
+                                                    </td>
+                                                    <td className="p-3 text-right">
+                                                        <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">
+                                                            <Link to={`/volunteer-need-details/${post._id}`}>Details</Link>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+
+                {
+                    view || data.map(post => {
                         return (
                             <div key={post._id} className="max-w-xs p-6 rounded-md shadow-md bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900">
                                 <img src={post.photo} alt="" className="object-cover object-center w-full rounded-md h-72 bg-gray-500 dark:bg-gray-500" />
