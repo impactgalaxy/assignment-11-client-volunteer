@@ -52,6 +52,7 @@ export default function Navbar() {
             })
             await axios(`${import.meta.env.VITE_API_KEY}/logout`, { withCredentials: true })
             setMenuOpen(false);
+            location.reload()
 
 
         } catch (error) {
@@ -123,8 +124,8 @@ export default function Navbar() {
                     </div>
 
 
-                    <div className="px-6 py-4 w-full bg-[#3578E5] relative">
-                        <div className='w-20 border h-20 block m-auto rounded-full bg-white absolute left-1/2 -translate-x-1/2 -top-8'>
+                    <div className="px-6 py-3 w-full bg-blue-gray-600 relative">
+                        <div className='w-20 border h-20 block m-auto rounded-full absolute left-1/2 -translate-x-1/2 -top-8'>
                             <img className="object-cover object-center m-auto rounded-full" src={user?.photoURL ? user?.photoURL : defaultUser} alt="avatar" />
 
                         </div>
@@ -141,12 +142,12 @@ export default function Navbar() {
                             About
                         </h1>
 
-                        <div className="flex items-center mt-4">
+                        <div className="flex items-center mt-4 py-3 hover:bg-[rgba(255,255,255,0.3)]">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                             </svg>
 
-                            <h1 className="px-2 text-sm cursor-pointer" onClick={handleLogout}>Logout</h1>
+                            <h1 className="px-2 text-lg font-black cursor-pointer" onClick={handleLogout}>Logout</h1>
                         </div>
                     </div>
 

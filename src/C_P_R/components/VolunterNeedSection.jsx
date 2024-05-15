@@ -13,7 +13,6 @@ export default function VolunterNeedSection() {
         queryKey: ["volunteerSection"],
         queryFn: () => volunteerSection()
     })
-    console.log(import.meta.env.VITE_API_KEY);
     const volunteerSection = async () => {
         try {
             const response = await axios(`${import.meta.env.VITE_API_KEY}/volunteerSection`)
@@ -60,7 +59,7 @@ export default function VolunterNeedSection() {
                                 </div>
                                 <p className="dark:text-gray-800">{post.description}</p>
                                 <div className="flex-grow flex items-end justify-center">
-                                    <Link to={`/volunteer-need-details/${post._id}`} className="btn btn-outline btn-block">Details</Link>
+                                    <Link to={`/volunteer-need-details/${post._id}`} className={`btn btn-outline btn-block`}>Details</Link>
                                 </div>
                             </div>
                         )
@@ -69,7 +68,7 @@ export default function VolunterNeedSection() {
             </div>
 
             <div className="lg:w-1/2 p-4 m-auto">
-                <Link to="/need-volunteer" className="btn btn-square btn-block">Show More</Link>
+                <Link to="/need-volunteer" className={`btn btn-square btn-block ${data.length == 0 ? "hidden" : " "}`}>Show More</Link>
 
             </div>
         </div>

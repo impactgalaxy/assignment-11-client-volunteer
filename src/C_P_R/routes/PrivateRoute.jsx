@@ -16,7 +16,7 @@ export default function PrivateRoute({ children }) {
         return children;
     }
 
-    return <Navigate to="/user-login" state={location.pathname}></Navigate>
+    return <Navigate to="/user-login" state={location.pathname} replace></Navigate>
 }
 
 PrivateRoute.propTypes = {

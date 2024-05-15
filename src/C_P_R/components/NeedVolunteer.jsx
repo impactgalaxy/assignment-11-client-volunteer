@@ -3,7 +3,7 @@ import useVolunteerData from "../customHooks/useVolunteerData"
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
 import { Button, Input, Select, Option } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../customHooks/useAuth";
 import { ImTable2 } from "react-icons/im";
 import { MdTableRows } from "react-icons/md";
@@ -18,15 +18,21 @@ export default function NeedVolunteer() {
 
     const [searchValue, setSearchValue] = useState("");
     const { setValue, setDeadlineOrder, setPageNumber, pageNumber } = useAuth();
-    const { data, isLoading, allData, load, refetch } = useVolunteerData();
-
+    const { data = [], isLoading, allData = {}, load, refetch } = useVolunteerData();
+    useEffect(() => {
+        refetch()
+    }, [])
 
     if (isLoading || load) {
         return <Loading></Loading>
     }
-    const totalPage = Math.ceil(allData.count / 6);
-    const page = [...Array(totalPage).keys()];
-
+    let totalPage = null;
+    if (Object.keys(allData).length > 0) {
+        totalPage = Math.ceil(allData?.count / 6)
+    } else {
+        totalPage = 0
+    }
+    const navigationButton = [...Array(totalPage).keys()];
 
     return (
         <div>
@@ -45,7 +51,7 @@ export default function NeedVolunteer() {
                     <Input
                         type="search"
                         color="white"
-                        label="Type here..."
+                        label="Type by title"
                         className="pr-20"
                         containerProps={{
                             className: "min-w-[288px]",
@@ -57,7 +63,7 @@ export default function NeedVolunteer() {
                         color="white"
                         className="!absolute right-1 top-1 rounded"
                         onClick={() => {
-                            refetch()
+
                             setValue(searchValue)
                         }}
                     >
@@ -176,9 +182,9 @@ export default function NeedVolunteer() {
                             </svg>
                         </button>
                         {
-                            page.map(btn => <button onClick={() => setPageNumber(btn)} key={btn} type="button" className={`inline-flex items-center px-4 py-2 text-sm font-semibold border dark:border-gray-300 ${pageNumber === btn ? "bg-yellow-700" : ""}`}>{btn}</button>)
+                            navigationButton.map(btn => <button onClick={() => setPageNumber(btn)} key={btn} type="button" className={`inline-flex items-center px-4 py-2 text-sm font-semibold border dark:border-gray-300 ${pageNumber === btn ? "bg-yellow-700" : ""}`}>{btn}</button>)
                         }
-                        <button onClick={() => setPageNumber(pageNumber + 1)} type="button" className={`inline-flex items-center px-2 py-2 text-sm font-semibold border rounded-r-md dark:border-gray-300 ${pageNumber === page.length - 1 ? "cursor-not-allowed" : ""}`} disabled={pageNumber === page.length - 1 ? true : false}>
+                        <button onClick={() => setPageNumber(pageNumber + 1)} type="button" className={`inline-flex items-center px-2 py-2 text-sm font-semibold border rounded-r-md dark:border-gray-300 ${pageNumber === navigationButton.length - 1 ? "cursor-not-allowed" : ""}`} disabled={pageNumber === navigationButton.length - 1 ? true : false}>
                             <span className="sr-only">Next</span>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="w-5 h-5">
                                 <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path>
