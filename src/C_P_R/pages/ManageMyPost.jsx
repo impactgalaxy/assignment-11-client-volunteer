@@ -28,11 +28,11 @@ export default function ManageMyPost() {
 
     })
     const volunteerNeedPostData = async () => {
-        const response = await axios(`${import.meta.env.VITE_API_KEY}/volunteerSecure?email=${user?.email}`)
+        const response = await axios(`${import.meta.env.VITE_API_KEY}/volunteerSecure?email=${user?.email}`, { withCredentials: true })
         return response.data;
     }
     const reqForVolunteerData = async () => {
-        const response = await axios(`${import.meta.env.VITE_API_KEY}/becomeVolunteer?email=${user?.email}`)
+        const response = await axios(`${import.meta.env.VITE_API_KEY}/becomeVolunteer?email=${user?.email}`, { withCredentials: true })
         return response.data;
     }
     if (loadingForPost || loadingForReq) {

@@ -118,6 +118,7 @@ export default function NeedVolunteer() {
                                                     <td className="p-3">
                                                         <p>{post.category}</p>
                                                     </td>
+
                                                     <td className="p-3">
                                                         <p>{post.numberOfVolunteer}</p>
 
@@ -150,8 +151,8 @@ export default function NeedVolunteer() {
                             <div key={post._id} className="max-w-xs p-6 rounded-md shadow-md bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900">
                                 <img src={post.photo} alt="" className="object-cover object-center w-full rounded-md h-72 bg-gray-500 dark:bg-gray-500" />
                                 <div className="mt-6 mb-2">
-                                    <span className="block text-xs font-medium tracking-widest uppercase text-violet-400 dark:text-violet-600">{post.title}</span>
-                                    <h2 className="text-xl font-semibold tracking-wide">{post.category}</h2>
+                                    <span className="block text-lg font-medium tracking-widest uppercase text-violet-400 dark:text-violet-600">{post.title}</span>
+                                    <h2 className="text-xs font-semibold tracking-wide">{post.category}</h2>
                                     <p>Deadline: <span className="bg-blue-gray-600 px-2">{post.deadLine}</span></p>
                                 </div>
                                 <p className="text-gray-100 dark:text-gray-800">{post.description}</p>

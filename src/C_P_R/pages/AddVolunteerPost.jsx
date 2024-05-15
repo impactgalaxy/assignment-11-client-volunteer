@@ -79,7 +79,7 @@ export default function AddVolunteerPost() {
 
                         <div className="col-span-full">
                             <label htmlFor="photo" className="text-sm">Photo URL</label>
-                            <input id="photo" {...register("photo")} type="text" placeholder="https://" className="w-full rounded-md focus:ring focus:ring-opacity-75 text-black focus:dark:ring-violet-600 dark:border-gray-300 input bg-slate-100" />
+                            <input id="photo" {...register("photo")} type="text" defaultValue="https://i.ibb.co/jyhSN3K/daniel-curran-Mt-v-DBy-RI44-unsplash.jpg" className="w-full rounded-md focus:ring focus:ring-opacity-75 text-black focus:dark:ring-violet-600 dark:border-gray-300 input bg-slate-100" />
                         </div>
                         <div className="col-span-full sm:col-span-2">
                             <label htmlFor="numberOfVolunteer" className="text-sm">Number of volunteer</label>

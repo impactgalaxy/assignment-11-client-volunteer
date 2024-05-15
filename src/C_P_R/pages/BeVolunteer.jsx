@@ -35,7 +35,7 @@ export default function BeVolunteer() {
             status,
         }
         const date = new Date(deadLine);
-        if (date > moment2) {
+        if (date < moment2) {
             return Toast.fire({
                 icon: "error",
                 title: "Deadline over!",
