@@ -50,5 +50,7 @@ For any questions, feedback, or support inquiries, please contact us at _nurpala
 - JWT 
 
 # Project Link 
-[volunify](https://assignment-11-3f45a.web.app)
-# Thanks everyone
+[volunify](https://assignment-11-3f45a.web.app) or https://assignment-11-3f45a.web.app
+
+
+# 📢 Thanks everyone

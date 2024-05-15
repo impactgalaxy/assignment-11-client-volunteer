@@ -3,7 +3,6 @@ import { Link, NavLink } from 'react-router-dom';
 import useAuth from '../../customHooks/useAuth';
 import defaultUser from "/user.png"
 import useToast from '../../customHooks/useToast';
-import axios from 'axios';
 
 export default function Navbar() {
     const { user, logOut } = useAuth();
@@ -50,7 +49,7 @@ export default function Navbar() {
                 icon: 'success',
                 title: "Logout successful"
             })
-            await axios(`${import.meta.env.VITE_API_KEY}/logout`, { withCredentials: true })
+
             setMenuOpen(false);
             location.reload()
 

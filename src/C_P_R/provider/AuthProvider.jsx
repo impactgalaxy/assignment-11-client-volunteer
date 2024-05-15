@@ -43,6 +43,12 @@ export default function AuthProvider({ children }) {
                 } catch (error) {
                     console.log(error.message);
                 }
+            } else {
+                try {
+                    await axios(`${import.meta.env.VITE_API_KEY}/logout`, { withCredentials: true })
+                } catch (error) {
+                    console.log(error.message);
+                }
             }
 
         })
