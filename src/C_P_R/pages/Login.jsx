@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "/Volunify (1).png";
 import useAuth from "../customHooks/useAuth";
 import useToast from "../customHooks/useToast";
+import { Helmet } from "react-helmet";
 export default function Login() {
     const { userLogin, googleLogin } = useAuth();
     const Toast = useToast();
@@ -63,6 +64,10 @@ export default function Login() {
     </svg>
     return (
         <div className="flex flex-col-reverse lg:flex-row gap-4 p-4 lg:*:w-1/2 *:p-4">
+            <Helmet>
+                <title>Volunify | login</title>
+                <meta name="description" content="This is a login route." />
+            </Helmet>
             <div>
                 <h1 className="text-center text-2xl lg:text-5xl">Login</h1>
                 <form onSubmit={handleSubmit(handleLogin)} className="space-y-10">

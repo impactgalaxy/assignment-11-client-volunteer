@@ -3,6 +3,7 @@ import useAuth from "../customHooks/useAuth";
 import useToast from "../customHooks/useToast";
 import logo from "/Untitled design.png";
 import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 
 export default function UserRegister() {
@@ -41,6 +42,10 @@ export default function UserRegister() {
 
     return (
         <div className='p-4'>
+            <Helmet>
+                <title>Volunify | user register</title>
+                <meta name="description" content="This is a user register route." />
+            </Helmet>
             <div className="p-4 lg:p-8">
                 <h1 className="text-xl lg:text-5xl text-center">Welcome to register yourself</h1>
             </div>

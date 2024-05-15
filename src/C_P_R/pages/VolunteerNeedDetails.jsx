@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import useSingleVolunteerData from "../customHooks/useSingleVolunteerData"
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 export default function VolunteerNeedDetails() {
     const { data, isLoading } = useSingleVolunteerData();
@@ -13,6 +14,10 @@ export default function VolunteerNeedDetails() {
     }
     return (
         <>
+            <Helmet>
+                <title>Volunify | volunteer Post details</title>
+                <meta name="description" content="This is a volunteer post details route." />
+            </Helmet>
             <div className="max-w-lg font-medium mx-auto p-4 shadow-md ">
                 <div className="flex justify-between pb-4 border-bottom">
                     <p className="font-black mb-0 capitalize">{category}</p>

@@ -110,6 +110,7 @@ export default function ManageMyPost() {
                 <title>
                     Manage my post
                 </title>
+                <meta name="description" content="This is a manage my post route." />
             </Helmet>
             <Tabs isFitted variant='enclosed'>
                 <TabList mb='1em'>

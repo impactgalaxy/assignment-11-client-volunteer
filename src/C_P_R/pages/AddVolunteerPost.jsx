@@ -53,6 +53,7 @@ export default function AddVolunteerPost() {
         <section className="p-6 bg-gray-800 ">
             <Helmet>
                 <title>Volunify | Add Volunteer</title>
+                <meta name="description" content="This is a add volunteer post route." />
             </Helmet>
             <form onSubmit={handleSubmit(handleAddPost)} noValidate="" className="container flex flex-col mx-auto space-y-12">
                 <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm bg-gray-900 text-white">

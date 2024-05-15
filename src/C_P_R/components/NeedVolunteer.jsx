@@ -3,7 +3,7 @@ import useVolunteerData from "../customHooks/useVolunteerData"
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
 import { Button, Input, Select, Option } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useAuth from "../customHooks/useAuth";
 import { ImTable2 } from "react-icons/im";
 import { MdTableRows } from "react-icons/md";
@@ -18,10 +18,10 @@ export default function NeedVolunteer() {
 
     const [searchValue, setSearchValue] = useState("");
     const { setValue, setDeadlineOrder, setPageNumber, pageNumber } = useAuth();
-    const { data = [], isLoading, allData = {}, load, refetch } = useVolunteerData();
-    useEffect(() => {
-        refetch()
-    }, [])
+    const { data = [], isLoading, allData = {}, load, } = useVolunteerData();
+
+
+
 
     if (isLoading || load) {
         return <Loading></Loading>
@@ -38,6 +38,7 @@ export default function NeedVolunteer() {
         <div>
             <Helmet>
                 <title>Volunify | need volunteer</title>
+                <meta name="description" content="This is a volunteer need route." />
             </Helmet>
             <div className="p-4 md:p-10 flex flex-col-reverse lg:flex-row gap-5 items-center justify-center bg-blue-gray-900">
                 <div className="w-72">
@@ -70,7 +71,10 @@ export default function NeedVolunteer() {
                         Search
                     </Button>
                 </div>
-                <Button onClick={() => setValue("")}>Reset</Button>
+                <Button onClick={() => {
+                    setDeadlineOrder("")
+                    setValue("")
+                }}>Reset</Button>
 
             </div>
             <div className="relative py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center container mx-auto gap-5">
