@@ -22,7 +22,6 @@ export default function AddVolunteerPost() {
 
 
     const handleAddPost = async (data) => {
-        data.volunteerData = [];
         data.deadLine = date;
         setValue("organizationName", user?.displayName);
         setValue("organizationEmail", user?.email);
